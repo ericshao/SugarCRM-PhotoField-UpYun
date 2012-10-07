@@ -35,6 +35,13 @@ if(!defined('sugarEntry') || !sugarEntry) die('Not A Valid Entry Point');
  * Contributor(s):      SYNOLIA - SYNOFIELDPHOTO
  *                      www.synolia.com - sugar@synolia.com
  **********************************************************************************/
+/**********************************************************************************
+ * Modified for supporting UpYun
+ *      https://github.com/ericshao/SugarCRM-PhotoField-UpYun
+ *                          
+ * Contributor(s):      eric.shao@qeemo.me
+ *                      
+ **********************************************************************************/
 $sugarFieldName = $_GET['sugarFieldphp'];
 ?>
 
@@ -74,8 +81,13 @@ function micoxUpload(form,url_action,id_element,html_show_loading,html_error_htt
     var module = window.parent.document.getElementsByName('module')[1].value;
     var field = sugarField;
     
+
+
+    var fileExtension = fileAndPath.substring(fileAndPath.lastIndexOf('.')).toLowerCase();
+    
+    
     //window.parent.document.getElementById(sugarField).value = fileNameOnly;
-    window.parent.document.getElementById(sugarField).value = module + '_' + field + '_' + record + '.jpg';
+    window.parent.document.getElementById(sugarField).value = module + '_' + field + '_' + record + fileExtension;
     window.parent.document.getElementById(field + '_iframe').setAttribute("style","height: 120px; width: 300px;");
 
     if(record && record != '') url_action = url_action + '&id=' + record
@@ -142,7 +154,7 @@ function micoxUpload(form,url_action,id_element,html_show_loading,html_error_htt
 
 <form>
     <input type="file" id="file" value="" name="file" onchange="micoxUpload(this.form,'index.php?entryPoint=upload','upload_2','include/SugarFields/Fields/Photo/indicator.gif','Error in upload',this);" />
-    <input type="button" value="Vider" onclick="clean_picture()" class="button" accesskey="C" title="Vider [Alt+C]" name="btn_clr_team_name"/>
+    <input type="button" value="Clear" onclick="clean_picture()" class="button" accesskey="C" title="Vider [Alt+C]" name="btn_clr_team_name"/>
 </form>
 <div id="upload_2">&nbsp;</div>
 <script type="text/javascript" language="javascript">
@@ -152,9 +164,9 @@ if (        window.parent.document
         &&  window.parent.document.getElementById(sugarField).value != ''
 ){
     var old_field = window.parent.document.getElementById(sugarField).value;
-    $m('upload_2').innerHTML = '<img src="custom/SynoFieldPhoto/phpThumb/phpThumb.php?src=images/' + old_field + '&h=80&w=80">'; 
+    $m('upload_2').innerHTML = '<img src="http://sugar.b0.upaiyun.com/' + sugarField + '/' + old_field + '!editView">'; 
     
-    window.parent.document.getElementById(sugarField + '_iframe').setAttribute("style","height: 120px; width: 300px;");   
+    window.parent.document.getElementById(sugarField + '_iframe').setAttribute("style","height: 200px; width: 300px;");   
 }
 function clean_picture(){
     if (    window.parent.document

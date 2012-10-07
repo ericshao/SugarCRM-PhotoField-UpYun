@@ -34,6 +34,13 @@
  * Contributor(s):      SYNOLIA - SYNOFIELDPHOTO
  *                      www.synolia.com - sugar@synolia.com
  **********************************************************************************/
+/**********************************************************************************
+ * Modified for supporting UpYun
+ *      https://github.com/ericshao/SugarCRM-PhotoField-UpYun
+ *                          
+ * Contributor(s):      eric.shao@qeemo.me
+ *                      
+ **********************************************************************************/
  *}
 <script type="text/javascript" language="javascript">
 function {{sugarvar key='name'}}_sugarField(){ldelim}

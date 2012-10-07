@@ -34,13 +34,16 @@
  * Contributor(s):      SYNOLIA - SYNOFIELDPHOTO
  *                      www.synolia.com - sugar@synolia.com
  **********************************************************************************/
+/**********************************************************************************
+ * Modified for supporting UpYun
+ *      https://github.com/ericshao/SugarCRM-PhotoField-UpYun
+ *                          
+ * Contributor(s):      eric.shao@qeemo.me
+ *                      
+ **********************************************************************************/
  *}
 {if !empty({{sugarvar key='value' string=true}})}
-    <img src='custom/SynoFieldPhoto/phpThumb/phpThumb.php?src=images/{{sugarvar key='value'}}&h={{if !empty($displayParams.max_height)}}{{$displayParams.max_height}}{{/if}}&w={{if !empty($displayParams.max_width)}}{{$displayParams.max_width}}{{/if}}' {{if isset($displayParams.border)}}border='{{$displayParams.border}}'{{/if}} {{if isset($displayParams.class)}}class='{{$displayParams.class}}'{{/if}} {{if !empty($displayParams.style)}}style='{{$displayParams.style}}'{{/if}} />
+    <img src='http://sugar.b0.upaiyun.com/{{sugarvar key='name'}}/{{sugarvar key='value'}}!detailView' />
 {else}
-    {{if !empty($displayParams.default_picture) }}
-        <img src='custom/SynoFieldPhoto/phpThumb/phpThumb.php?src=images/{{$displayParams.default_picture}}&t={{$displayParams.t}}&h={{if !empty($displayParams.max_height)}}{{$displayParams.max_height}}{{/if}}&w={{if !empty($displayParams.max_width)}}{{$displayParams.max_width}}{{/if}}' {{if isset($displayParams.border)}}border='{{$displayParams.border}}'{{/if}} {{if isset($displayParams.class)}}class='{{$displayParams.class}}'{{/if}} {{if !empty($displayParams.style)}}style='{{$displayParams.style}}'{{/if}} />
-    {{else}}
-        {$APP.NO_PICTURE_AVAILABLE}
-    {{/if}}
+    {$APP.NO_PICTURE_AVAILABLE}
 {/if}

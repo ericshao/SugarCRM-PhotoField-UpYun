@@ -35,6 +35,7 @@
  *}
 {php}
 //Search for Photo fields
+//MAY NOT WORK YET!!
 $photos_keys = array();
 $displayColumns = $this->get_template_vars('displayColumns');
 foreach($displayColumns as $key => $val){
@@ -46,7 +47,7 @@ $datas = $this->get_template_vars('data');
 foreach($datas as $nb_data => $one_data){
     foreach($photos_keys as $photo_key){
         if(!empty($one_data[$photo_key])){
-            $datas[$nb_data][$photo_key] = '<img src="custom/SynoFieldPhoto/phpThumb/phpThumb.php?src=images/'.$datas[$nb_data][$photo_key].'&h=60" border="0" />';
+            $datas[$nb_data][$photo_key] = '<img src="http://sugar.b0.upaiyun.com/'.strtolower($photo_key).'/'.$datas[$nb_data][$photo_key].'!listView" border="0" />';
         }
     }
 }

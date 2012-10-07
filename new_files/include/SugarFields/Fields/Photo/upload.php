@@ -35,6 +35,15 @@ if(!defined('sugarEntry') || !sugarEntry) die('Not A Valid Entry Point');
  * Contributor(s):      SYNOLIA - SYNOFIELDPHOTO
  *                      www.synolia.com - sugar@synolia.com
  **********************************************************************************/
+/**********************************************************************************
+ * Modified for supporting UpYun
+ *      https://github.com/ericshao/SugarCRM-PhotoField-UpYun
+ *                          
+ * Contributor(s):      eric.shao@qeemo.me
+ *                      
+ **********************************************************************************/ 
+
+ 
 global $current_user;
 if( empty($_GET['id']) ){
     echo 'id required';
@@ -46,6 +55,10 @@ elseif( empty($_GET['field']) ){
     echo 'field required';
 }
 else{
+
+	require_once('upyun.class.php');
+	require_once('upyun.config.php');
+
     $module_name = $_GET['module'];
     $field_name = $_GET['field'];
     
@@ -62,9 +75,23 @@ else{
     }
     
     if($seed->ACLAccess('edit')){
-             
-        $new_name = $module_name.'_'.$field_name.'_'.$seed->id.'.jpg';
-        $target_path = 'custom/SynoFieldPhoto/phpThumb/images/new_'.$new_name;
+
+		//确定图片文件扩展名
+		if ($_FILES["file"]["type"] == "image/gif") {
+			$file_ext = ".gif";
+		} 
+		elseif (($_FILES["file"]["type"] == "image/jpeg") 
+                ||  ($_FILES["file"]["type"] == "image/jpg") 
+                ||  ($_FILES["file"]["type"] == "image/pjpeg")){
+            $file_ext = ".jpg";
+        } 
+        elseif ($_FILES["file"]["type"] == "image/png") {
+        	$file_ext = ".png";
+        }	
+        
+        //设置图片上传后的文件名
+        $file_name = $module_name.'_'.$field_name.'_'.$seed->id.$file_ext;
+
         if (    
             (
                     ($_FILES["file"]["type"] == "image/gif") 
@@ -82,14 +109,16 @@ else{
                 echo "Return Code: " . $_FILES["file"]["error"] . "<br />";
             }
             else{
-                
-        	    if (file_exists("phpThumb/images/" . $new_name)){
-                    echo '<img src="custom/SynoFieldPhoto/phpThumb/phpThumb.php?src=images/' . $new_name . '&h=80&w=80&t='.time().'">';
-                }
-                else if(move_uploaded_file($_FILES['file']['tmp_name'], $target_path)){
-        		    chmod($target_path, 0644);
-        		    echo '<img src="custom/SynoFieldPhoto/phpThumb/phpThumb.php?src=images/new_' . $new_name . '&h=80&w=80&t='.time().'">';
-        	    }
+				//将图片上传至又拍云存储
+				$fh = fopen($_FILES["file"]["tmp_name"],'r'); 
+    	 		$upyun->writeFile("/".$field_name."/" . $file_name, $fh, true);
+     		    fclose($fh);
+    		    
+    		    //返回上传后成功的地址
+    		    //echo $file_name;
+    		    echo '<img src="' . $upyunHost . $field_name . "/" . $file_name . '">';
+    		    
+
             }
         }
         elseif($_FILES["file"]["size"] >= $max_size_picture){
@@ -130,4 +159,3 @@ function formatSize($size){
 }
 
 ?>
-

@@ -32,6 +32,13 @@
  * Contributor(s):          ______________________________________.
  * Description :            ______________________________________.
  **********************************************************************************/
+/**********************************************************************************
+ * Modified for supporting UpYun
+ *      https://github.com/ericshao/SugarCRM-PhotoField-UpYun
+ *                          
+ * Contributor(s):      eric.shao@qeemo.me
+ *                      
+ **********************************************************************************/
 require_once('include/SugarFields/Fields/Base/SugarFieldBase.php');
 
 class SugarFieldPhoto extends SugarFieldBase {
@@ -39,8 +46,9 @@ class SugarFieldPhoto extends SugarFieldBase {
     var $style;
     
 	function getDetailViewSmarty($parentFieldArray, $vardef, $displayParams, $tabindex) {
+	    /*
 	    global $app_strings;
-	    
+	    	
 	    //Max Width
 		if(empty($displayParams['max_width'])) {
 		    $displayParams['max_width'] = $vardef['max_width'];
@@ -57,12 +65,14 @@ class SugarFieldPhoto extends SugarFieldBase {
 		}
 		
 		$displayParams['t'] = time();
-		
+
+			
     	if(empty($displayParams['default_picture'])) {
 		    if ( file_exists('custom/SynoFieldPhoto/phpThumb/images/defaults/' . $vardef['id'].'.jpg') ){
 		        $displayParams['default_picture'] = 'defaults/' . $vardef['id'].'.jpg';
 		    }
 		}
+		*/
 		$this->setup($parentFieldArray, $vardef, $displayParams, $tabindex);
 		
         return $this->fetch('include/SugarFields/Fields/Photo/DetailView.tpl');
